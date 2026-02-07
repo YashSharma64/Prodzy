@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes prodzy-letter-loop {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.prodzy-letter {
+  display: inline-block;
+  will-change: transform, opacity;
+  animation-name: prodzy-letter-loop;
+  animation-duration: var(--prodzy-duration, 3600ms);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prodzy-letter {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}
