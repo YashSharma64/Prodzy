@@ -2,7 +2,7 @@
 export default function Input() {
   return (
     <div className="min-h-screen bg-[#F5E8D7] text-[#7B5A48]">
-      <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
+      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8">
         <div className="text-xs tracking-widest">LOGO</div>
         <button
           type="button"
@@ -12,30 +12,37 @@ export default function Input() {
         </button>
       </header>
 
-      <main className="mx-auto flex max-w-5xl flex-col items-center px-6 pt-10 text-center">
-        <h1 className="text-5xl font-light tracking-wide">Prodzy.AI</h1>
-        <p className="mt-4 text-sm tracking-wide">AI Product Description Generator</p>
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-6 text-center">
+        <div className="w-full max-w-3xl py-10 md:py-16">
+          <h1 className="text-4xl font-light tracking-wide sm:text-5xl md:text-6xl">
+            Prodzy.AI
+          </h1>
 
-        <p className="mt-6 max-w-2xl text-lg font-light">
-          Category-aware descriptions powered by LLMs
-        </p>
+          <p className="mt-5 text-sm tracking-wide md:text-base">
+            AI Product Description Generator
+          </p>
 
-        <div className="mt-3 h-px w-96 max-w-full bg-[#C9AA8C]" />
+          <p className="mt-8 text-base font-light leading-relaxed md:text-xl">
+            Category-aware descriptions powered by LLMs
+          </p>
 
-        <button
-          type="button"
-          className="mt-10 rounded-xl bg-[#6B4A3A] px-10 py-5 text-sm font-medium text-[#F5E8D7] shadow-sm hover:opacity-95 active:opacity-90"
-          onClick={() => {}}
-        >
-          <div className="leading-tight">
-            <div className="text-xs">fill the</div>
-            <div className="text-base">Product Details Form</div>
-          </div>
-        </button>
+          <div className="mx-auto mt-5 h-px w-72 max-w-full bg-[#C9AA8C] sm:w-96" />
 
-        <p className="mt-20 text-xs text-[#9A7A66]">
-          Fill what you know — Prodzy handles the rest...
-        </p>
+          <button
+            type="button"
+            className="mt-12 inline-flex rounded-xl bg-[#6B4A3A] px-10 py-5 text-sm font-medium text-[#F5E8D7] shadow-sm hover:opacity-95 active:opacity-90 md:px-14 md:py-6"
+            onClick={() => {}}
+          >
+            <span className="leading-tight">
+              <span className="block text-xs">fill the</span>
+              <span className="block text-base md:text-lg">Product Details Form</span>
+            </span>
+          </button>
+
+          <p className="mt-16 text-xs text-[#9A7A66] md:text-sm">
+            Fill what you know — Prodzy handles the rest...
+          </p>
+        </div>
       </main>
     </div>
   )
