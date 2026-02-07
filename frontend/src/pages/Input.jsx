@@ -1,10 +1,13 @@
 
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Input() {
   const title = 'Prodzy.AI'
   const durationMs = 5200
   const stepMs = 240
+
+  const navigate = useNavigate()
 
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({
@@ -30,6 +33,27 @@ export default function Input() {
       block: 'start',
     })
   }, [showForm])
+
+  const onGenerate = () => {
+    const name = form.productName?.trim() || 'Your product'
+    const category = form.category?.trim() || 'your category'
+    const features = form.keyFeatures?.trim()
+
+    const description = `${name} is a premium product in ${category} designed for people who value quality and comfort. ${
+      features ? `Key highlights include: ${features}.` : ''
+    }`
+
+    navigate('/result', {
+      state: {
+        description,
+        checks: [
+          { status: 'ok', label: 'Length', text: 'Within recommended range' },
+          { status: 'ok', label: 'Tone', text: `Matches ${category} category` },
+          { status: 'warn', label: 'Missing Info', text: 'Add a key spec (e.g., battery life)' },
+        ],
+      },
+    })
+  }
 
   return (
     <div className="min-h-screen bg-[#F5E8D7] text-[#7B5A48]">
@@ -163,7 +187,7 @@ export default function Input() {
               <button
                 type="button"
                 className="mx-auto mt-6 inline-flex rounded-xl bg-[#B88A65] px-10 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm hover:opacity-95 active:opacity-90"
-                onClick={() => {}}
+                onClick={onGenerate}
               >
                 Generate Description
               </button>
