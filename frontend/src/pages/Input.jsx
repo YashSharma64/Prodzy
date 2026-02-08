@@ -216,7 +216,7 @@ export default function Input() {
 
               <button
                 type="button"
-                className="mx-auto mt-6 inline-flex rounded-xl bg-[#B88A65] px-10 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm hover:opacity-95 active:opacity-90"
+                className="mx-auto mt-6 inline-flex rounded-xl bg-[#B88A65] px-10 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm hover:bg-[#B88A65]/80 active:opacity-90"
                 onClick={onGenerate}
                 disabled={isGenerating}
               >
