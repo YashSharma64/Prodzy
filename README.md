@@ -4,12 +4,11 @@ Prodzy is a lightweight, demo-friendly app that generates **high-quality e-comme
  
 - Frontend: React (Vite) + minimal styling
 - Backend: FastAPI (async) + Pydantic
-- LLM: OpenAI (GPT-4o-mini / GPT-3.5) or Google Gemini
+- LLM: Google Gemini
 - API: REST + JSON
 - Evaluation: rule-based (no ML)
  
 ## Why this project design
-- Clean, interview-friendly architecture
 - Backend-first (prompting, validations, retries, evaluation logic)
 - No DB / No Auth (intentional to keep scope tight)
 - Swagger UI available out of the box for quick demos
@@ -26,7 +25,7 @@ Prodzy is a lightweight, demo-friendly app that generates **high-quality e-comme
 ## Project Structure
 ```
 Prodzy/
-  backend/              # FastAPI app (to be implemented)
+  backend/              # FastAPI app
   frontend/             # React (Vite) UI
   README.md
 ```
@@ -42,14 +41,14 @@ source .venv/bin/activate
 ```
  
 ### 2) Install dependencies
-Once `backend/` contains the API code and requirements file, you’ll run something like:
+From the repo root:
  
 ```bash
 pip install -r backend/requirements.txt
 ```
  
 ### 3) Environment variables
-Create `backend/.env` (or `.env` at repo root depending on implementation) with one of the provider configs below.
+Create `backend/.env` with one of the provider configs below.
  
 #### Option A: OpenAI
 ```env
@@ -66,15 +65,15 @@ GEMINI_MODEL=gemini-1.5-flash
 ```
  
 ### 4) Run the API
-Typical dev command (will be finalized once backend exists):
+From the `backend/` folder:
  
 ```bash
-uvicorn app.main:app --reload --port 8000
+/Users/yashsharma/Prodzy/.venv/bin/python -m uvicorn app.main:app --reload --port 8001
 ```
  
 ### API Docs
-- Swagger UI: `http://localhost:8000/docs`
-- OpenAPI JSON: `http://localhost:8000/openapi.json`
+- Swagger UI: `http://localhost:8001/docs`
+- OpenAPI JSON: `http://localhost:8001/openapi.json`
  
 ## Frontend (React)
  
@@ -92,18 +91,26 @@ The frontend calls the FastAPI backend over REST.
  
 Typical dev URLs:
 - Frontend: `http://localhost:5173`
-- Backend: `http://localhost:8000`
+- Backend: `http://localhost:8001`
+
+If you want to override the backend URL in the frontend, set:
+
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8001
+```
  
 If CORS is needed, it will be enabled in the FastAPI app for local dev.
  
-## Planned REST API (contract)
-Exact schemas will be enforced with Pydantic models.
+## REST API (current)
+Schemas are enforced with Pydantic models.
  
 ### `GET /health`
 Simple health check.
  
-### `POST /generate`
+### `POST /generate-description`
 Generates a product description using the chosen LLM provider.
+
+Note: `POST /generate` is kept for backward compatibility.
  
 Example request (shape):
 ```json
@@ -122,8 +129,8 @@ Example response (shape):
 {
   "description": "...",
   "metadata": {
-    "provider": "openai",
-    "model": "gpt-4o-mini"
+    "provider": "gemini",
+    "model": "gemini-1.5-flash"
   }
 }
 ```
@@ -149,7 +156,7 @@ Example response (shape):
   "checks": {
     "length": "pass",
     "tone": "warn",
-    "missing_fields": "pass"
+    "missing_info": "pass"
   },
   "suggestions": [
     "Make the tone more premium by reducing casual phrases.",
@@ -157,12 +164,16 @@ Example response (shape):
   ]
 }
 ```
- 
-## Notes / Non-Goals (intentional)
-- No database
-- No authentication
-- No LangChain / RAG / vector DB
-- Docker optional
+
+## Prompt templates
+Prompts are versioned and stored in:
+
+- `backend/app/services/prompt_service.py`
+
+Available versions:
+
+- `v1`: `PROMPT_V1_SYSTEM`, `PROMPT_V1_USER`
+- `v2`: `PROMPT_V2_SYSTEM`, `PROMPT_V2_USER_BASE` (plus category-aware guidelines)
  
 ## License
 MIT (or company-assessment default — update if required).
