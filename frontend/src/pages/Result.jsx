@@ -136,7 +136,14 @@ they are ideal for daily use, travel, and work.`
   return (
     <div className="min-h-screen bg-[#F5E8D7] text-[#7B5A48]">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8">
-        <div className="text-2xl font-light tracking-widest">LOGO</div>
+        <button
+          type="button"
+          className="inline-flex items-center gap-2 text-sm font-medium text-[#6B4A3A] hover:opacity-80"
+          onClick={() => navigate('/')}
+        >
+          <span>←</span>
+          <span>Back</span>
+        </button>
         <button
           type="button"
           className="text-2xl font-light tracking-widest hover:opacity-80"
