@@ -87,19 +87,22 @@ export default function Input() {
 
   return (
     <div className="min-h-screen bg-[#F5E8D7] text-[#7B5A48]">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8">
-        <div className="text-2xl font-light tracking-widest">LOGO</div>
+      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-3 py-6 border-b border-brown-500 opacity-70">
+       <div className="w-14"><img src="public/prodzy.png" alt="" /></div>
         <button
           type="button"
           className="text-2xl font-light tracking-widest hover:opacity-80"
         >
           ABOUT US
         </button>
+
+        
       </header>
+
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-6 text-center">
         <div className="w-full max-w-3xl py-10 md:py-16">
-          <h1 className="text-4xl font-light tracking-wide sm:text-5xl md:text-9xl" aria-label={title}>
+          <h1 className="text-17xl font-light sm:text-6xl md:text-9xl" aria-label={title}>
             {title.split('').map((ch, idx) => (
               <span
                 // eslint-disable-next-line react/no-array-index-key
@@ -216,7 +219,7 @@ export default function Input() {
 
               <button
                 type="button"
-                className="mx-auto mt-6 inline-flex rounded-xl bg-[#B88A65] px-10 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm hover:bg-[#B88A65]/80 active:opacity-90"
+                className="mx-auto mt-8 inline-flex rounded-xl bg-[#B88A65] px-12 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm transition-colors transition-transform active:opacity-90 enabled:hover:bg-brown-800 enabled:hover:scale-[1.03] active:scale-[0.99]"
                 onClick={onGenerate}
                 disabled={isGenerating}
               >
