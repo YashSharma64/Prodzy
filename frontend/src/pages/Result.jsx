@@ -25,6 +25,8 @@ they are ideal for daily use, travel, and work.`
   const [isRegenerating, setIsRegenerating] = useState(false)
   const [regenError, setRegenError] = useState('')
 
+  const suggestions = location.state?.suggestions || []
+
   const checks = useMemo(() => {
     const raw = location.state?.checks
     if (!raw) return []
@@ -43,10 +45,45 @@ they are ideal for daily use, travel, and work.`
       }
     }
 
-    return Object.entries(raw).map(([k, v]) => toLine(k, v))
-  }, [location.state])
+    const suggestionText = suggestions.join('\n')
+    const missingMatch = suggestionText.match(/Add required terms:\s*(.*)/i)
+    const missingTerms = missingMatch?.[1]?.trim()
 
-  const suggestions = location.state?.suggestions || []
+    return Object.entries(raw).map(([k, v]) => {
+      const base = toLine(k, v)
+
+      if (k === 'tone') {
+        return {
+          ...base,
+          text: v === 'pass' ? 'Matches expected tone' : 'Tone needs adjustment',
+        }
+      }
+
+      if (k === 'missing_info') {
+        return {
+          ...base,
+          text:
+            v === 'pass'
+              ? 'No missing info detected'
+              : missingTerms
+                ? `Missing: ${missingTerms}`
+                : 'Missing info detected',
+        }
+      }
+
+      if (k === 'length') {
+        const lengthHint = suggestions.find(
+          (s) => /Increase the description length|Shorten the description/i.test(s)
+        )
+        return {
+          ...base,
+          text: v === 'pass' ? 'Within recommended range' : lengthHint || 'Length needs adjustment',
+        }
+      }
+
+      return base
+    })
+  }, [location.state])
 
   const onCopy = async () => {
     try {
