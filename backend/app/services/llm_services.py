@@ -72,6 +72,8 @@ async def _openai_chat_completion(*, settings: Settings, prompt: Prompt) -> LLMR
 async def _gemini_generate_content(*, settings: Settings, prompt: Prompt) -> LLMResult:
   if not settings.gemini_api_key:
     raise LLMError('GEMINI_API_KEY is not set')
+  if settings.gemini_api_key.strip() in {'YOUR_KEY_HERE', 'REPLACE_ME'}:
+    raise LLMError('GEMINI_API_KEY is a placeholder. Set a real key in backend/.env')
 
   model = settings.gemini_model or 'gemini-1.5-flash'
   url = (
@@ -108,6 +110,11 @@ async def _gemini_generate_content(*, settings: Settings, prompt: Prompt) -> LLM
       async with httpx.AsyncClient(timeout=timeout) as client:
         resp = await client.post(url, json=payload)
 
+      if resp.status_code in (400, 401, 403):
+        raise LLMError(
+          'Gemini request failed. Check GEMINI_API_KEY and GEMINI_MODEL. '
+          f'Status {resp.status_code}: {resp.text}'
+        )
       if resp.status_code in (429, 500, 502, 503, 504):
         raise LLMError(f'Gemini temporary error: {resp.status_code}: {resp.text}')
 

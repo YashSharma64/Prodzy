@@ -1,4 +1,4 @@
-from functools import lru_cache
+from pathlib import Path
 
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -19,7 +19,7 @@ class Settings(BaseSettings):
   max_retries: int = 2
 
 
-@lru_cache
 def get_settings() -> Settings:
-  load_dotenv()
+  dotenv_path = Path(__file__).resolve().parents[1] / '.env'
+  load_dotenv(dotenv_path=dotenv_path, override=True)
   return Settings()
