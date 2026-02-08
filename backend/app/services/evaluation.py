@@ -20,8 +20,26 @@ _TONE_KEYWORDS: dict[str, set[str]] = {
 }
 
 
+_CTA_PHRASES: set[str] = {
+  'buy now',
+  'shop now',
+  'order now',
+  'add to cart',
+  'get yours',
+  'try it',
+  'upgrade',
+  'discover',
+  'experience',
+}
+
+
 def _word_count(text: str) -> int:
   return len([w for w in re.split(r"\s+", text.strip()) if w])
+
+
+def _split_sentences(text: str) -> list[str]:
+  parts = re.split(r"(?<=[.!?])\s+", text.strip())
+  return [p.strip() for p in parts if p.strip()]
 
 
 def evaluate_description(
@@ -39,6 +57,8 @@ def evaluate_description(
     'length': 'pass',
     'tone': 'pass',
     'missing_info': 'pass',
+    'cta': 'pass',
+    'readability': 'pass',
   }
   suggestions: list[str] = []
 
@@ -55,6 +75,21 @@ def evaluate_description(
     checks['missing_info'] = 'warn'
     suggestions.append(f"Add required terms: {', '.join(missing_terms)}")
 
+  # CTA (call-to-action) heuristic: optional but improves ecommerce usefulness.
+  lowered = desc.lower()
+  has_cta = any(p in lowered for p in _CTA_PHRASES)
+  if not has_cta:
+    checks['cta'] = 'warn'
+    suggestions.append('Add a short call-to-action (e.g., "Shop now" or "Get yours today").')
+
+  # Readability heuristic: avoid very long sentences.
+  sentences = _split_sentences(desc)
+  if sentences:
+    avg_words = sum(_word_count(s) for s in sentences) / max(1, len(sentences))
+    if avg_words > 28:
+      checks['readability'] = 'warn'
+      suggestions.append('Improve readability by shortening long sentences.')
+
   tone = (expected_tone or '').strip().lower()
   if tone:
     expected = _TONE_KEYWORDS.get(tone)
@@ -68,11 +103,18 @@ def evaluate_description(
       suggestions.append('Clarify expected tone or use a standard tone label.')
 
   score = 100
-  for v in checks.values():
+  weights: dict[str, int] = {
+    'length': 15,
+    'tone': 15,
+    'missing_info': 20,
+    'cta': 10,
+    'readability': 10,
+  }
+  for key, v in checks.items():
     if v == 'warn':
-      score -= 15
+      score -= weights.get(key, 10)
     if v == 'fail':
-      score -= 30
+      score -= max(20, weights.get(key, 10) * 2)
   score = max(0, min(100, score))
 
   return EvaluationResult(score=score, checks=checks, suggestions=suggestions)
