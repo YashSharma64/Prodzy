@@ -22,6 +22,8 @@ they are ideal for daily use, travel, and work.`
 
   const [description, setDescription] = useState(initialDescription)
 
+  const [copyState, setCopyState] = useState('idle')
+
   const [isRegenerating, setIsRegenerating] = useState(false)
   const [regenError, setRegenError] = useState('')
 
@@ -87,9 +89,13 @@ they are ideal for daily use, travel, and work.`
 
   const onCopy = async () => {
     try {
+      setCopyState('copying')
       await navigator.clipboard.writeText(description)
+      setCopyState('copied')
+      window.setTimeout(() => setCopyState('idle'), 1500)
     } catch {
-      // ignore
+      setCopyState('error')
+      window.setTimeout(() => setCopyState('idle'), 1500)
     }
   }
 
@@ -167,9 +173,14 @@ they are ideal for daily use, travel, and work.`
             <button
               type="button"
               onClick={onCopy}
+              disabled={copyState === 'copying'}
               className="inline-flex rounded-xl bg-[#6B4A3A] px-8 py-3 text-sm font-medium text-[#F5E8D7] shadow-sm hover:opacity-95 active:opacity-90"
             >
-              Copy
+              {copyState === 'copied'
+                ? 'Copied!'
+                : copyState === 'error'
+                  ? 'Copy failed'
+                  : 'Copy'}
             </button>
             <button
               type="button"
@@ -193,7 +204,7 @@ they are ideal for daily use, travel, and work.`
             <div className="grid gap-3 text-sm md:text-base">
               {checks.map((c) => (
                 <div key={c.label} className="flex items-start gap-3">
-                  <div className="mt-0.5 w-5">{c.status === 'ok' ? '✅' : '⚠'}</div>
+                  <div className="mt-0.5 w-5">{c.status === 'ok' ? '-' : '⚠'}</div>
                   <div>
                     <span className="font-medium">{c.label}:</span> {c.text}
                   </div>
