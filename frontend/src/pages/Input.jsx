@@ -87,7 +87,7 @@ export default function Input() {
 
   return (
     <div className="min-h-screen bg-[#F5E8D7] text-[#7B5A48]">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-3 py-6 border-b border-brown-500 opacity-70">
+      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-3 py-6 border-b border-brown-500 opacity-70">
        <div className="w-14"><img src="public/prodzy.png" alt="" /></div>
         <button
           type="button"
@@ -131,11 +131,11 @@ export default function Input() {
           {!showForm ? (
             <button
               type="button"
-              className="mt-12 inline-flex rounded-xl bg-[#6B4A3A] px-10 py-5 text-sm font-medium text-[#F5E8D7] shadow-sm hover:opacity-95 active:opacity-90 md:px-14 md:py-6"
+              className="mt-12 inline-flex rounded-xl bg-[#6B4A3A] px-10 py-5 text-sm font-medium text-[#F5E8D7] shadow-sm transition-colors transition-transform duration-300 hover:opacity-95 hover:bg-brown-200 hover:text-brown-800 hover:scale-[1.03] active:opacity-90 active:scale-[0.99] md:px-14 md:py-6"
               onClick={() => setShowForm(true)}
             >
               <span className="leading-tight">
-                <span className="block text-xs">Fill the</span>
+                <span className="block text-xs">Fill The</span>
                 <span className="block text-base md:text-lg">Product Details Form</span>
               </span>
             </button>
@@ -219,7 +219,7 @@ export default function Input() {
 
               <button
                 type="button"
-                className="mx-auto mt-8 inline-flex rounded-xl bg-[#B88A65] px-12 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm transition-colors transition-transform active:opacity-90 enabled:hover:bg-brown-800 enabled:hover:scale-[1.03] active:scale-[0.99]"
+                className="mx-auto mt-8 inline-flex rounded-xl bg-[#B88A65] px-12 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm transition-colors transition-transform active:opacity-90 enabled:hover:bg-brown-800 enabled:hover:scale-[1.03] active:scale-[1.01]"
                 onClick={onGenerate}
                 disabled={isGenerating}
               >
