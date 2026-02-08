@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { evaluateDescription, generateDescription } from '../services/api.js'
@@ -6,6 +6,10 @@ import { evaluateDescription, generateDescription } from '../services/api.js'
 export default function Result() {
   const navigate = useNavigate()
   const location = useLocation()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
 
   const error = location.state?.error
   const generatePayload = location.state?.generatePayload
