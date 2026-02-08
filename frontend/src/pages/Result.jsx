@@ -200,7 +200,7 @@ they are ideal for daily use, travel, and work.`
           </div>
 
           {regenError ? (
-            <p className="mt-4 text-center text-xs text-brown-600">{regenError}</p>
+            <p className="mt-4 text-center text-xs text-brown-100/80">{regenError}</p>
           ) : null}
         </section>
 

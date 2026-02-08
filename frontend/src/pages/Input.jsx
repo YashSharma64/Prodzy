@@ -44,6 +44,16 @@ export default function Input() {
     aboutRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
+  const onUseSample = () => {
+    setForm({
+      productName: 'Aurora Insulated Stainless Steel Water Bottle (750ml)',
+      category: 'Drinkware',
+      brandOrPrice: 'Aurora / $24.99',
+      keyFeatures: 'Double-wall insulated\nLeak-proof lid\nBPA-free\nKeeps cold 24h / hot 12h\nScratch-resistant finish',
+      targetAudience: 'Gym-goers, commuters, and travelers',
+    })
+  }
+
   const onGenerate = async () => {
     setError('')
     setIsGenerating(true)
@@ -159,13 +169,22 @@ export default function Input() {
                     </p>
                   </div>
 
-                  <button
-                    type="button"
-                    className="text-xs tracking-wide text-brown-100/90 hover:text-brown-100"
-                    onClick={() => setShowForm(false)}
-                  >
-                    Back
-                  </button>
+                  <div className="flex items-center gap-4">
+                    <button
+                      type="button"
+                      className="text-xs tracking-wide text-brown-100/90 hover:text-brown-100"
+                      onClick={onUseSample}
+                    >
+                      Use sample
+                    </button>
+                    <button
+                      type="button"
+                      className="text-xs tracking-wide text-brown-100/90 hover:text-brown-100"
+                      onClick={() => setShowForm(false)}
+                    >
+                      Back
+                    </button>
+                  </div>
                 </div>
 
                 <div className="mt-7 grid gap-5">
