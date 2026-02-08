@@ -1,9 +1,14 @@
 import { useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { evaluateDescription, generateDescription } from '../services/api.js'
+
 export default function Result() {
   const navigate = useNavigate()
   const location = useLocation()
+
+  const error = location.state?.error
+  const generatePayload = location.state?.generatePayload
 
   const initialDescription = useMemo(() => {
     return (
@@ -17,15 +22,31 @@ they are ideal for daily use, travel, and work.`
 
   const [description, setDescription] = useState(initialDescription)
 
+  const [isRegenerating, setIsRegenerating] = useState(false)
+  const [regenError, setRegenError] = useState('')
+
   const checks = useMemo(() => {
-    return (
-      location.state?.checks || [
-        { status: 'ok', label: 'Length', text: 'Within recommended range' },
-        { status: 'ok', label: 'Tone', text: 'Matches electronics category' },
-        { status: 'warn', label: 'Missing Info', text: 'Battery life' },
-      ]
-    )
+    const raw = location.state?.checks
+    if (!raw) return []
+
+    if (Array.isArray(raw)) return raw
+
+    const toLine = (key, status) => {
+      const label = key
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+
+      return {
+        status: status === 'pass' ? 'ok' : status,
+        label,
+        text: status === 'pass' ? 'Within recommended range' : 'Needs attention',
+      }
+    }
+
+    return Object.entries(raw).map(([k, v]) => toLine(k, v))
   }, [location.state])
+
+  const suggestions = location.state?.suggestions || []
 
   const onCopy = async () => {
     try {
@@ -35,8 +56,38 @@ they are ideal for daily use, travel, and work.`
     }
   }
 
-  const onRegenerate = () => {
-    setDescription((prev) => prev)
+  const onRegenerate = async () => {
+    if (!generatePayload) return
+    setRegenError('')
+    setIsRegenerating(true)
+
+    try {
+      const gen = await generateDescription(generatePayload)
+      const evalRes = await evaluateDescription({
+        description: gen.description,
+        expected_tone: generatePayload.tone,
+        required_terms: (generatePayload.key_features || []).slice(0, 5),
+        min_length: 120,
+        max_length: 180,
+      })
+
+      setDescription(gen.description)
+      navigate('/result', {
+        replace: true,
+        state: {
+          ...location.state,
+          description: gen.description,
+          checks: evalRes.checks,
+          suggestions: evalRes.suggestions,
+          score: evalRes.score,
+          metadata: gen.metadata,
+        },
+      })
+    } catch (e) {
+      setRegenError(e instanceof Error ? e.message : 'Failed to regenerate')
+    } finally {
+      setIsRegenerating(false)
+    }
   }
 
   return (
@@ -56,6 +107,20 @@ they are ideal for daily use, travel, and work.`
           Generated Description
         </h1>
 
+        {error ? (
+          <div className="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-[#C9AA8C] bg-[#F5E8D7] p-6 text-center md:p-10">
+            <p className="text-sm text-[#7B5A48]">{error}</p>
+            <button
+              type="button"
+              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#6B4A3A] hover:opacity-80"
+              onClick={() => navigate('/')}
+            >
+              <span>←</span>
+              <span>Back to Edit</span>
+            </button>
+          </div>
+        ) : null}
+
         <section className="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-[#C9AA8C] bg-[#F5E8D7] p-6 md:p-10">
           <div className="whitespace-pre-line text-base leading-relaxed md:text-lg">
             {description}
@@ -72,11 +137,16 @@ they are ideal for daily use, travel, and work.`
             <button
               type="button"
               onClick={onRegenerate}
+              disabled={isRegenerating || !generatePayload}
               className="inline-flex rounded-xl border border-[#6B4A3A] bg-transparent px-8 py-3 text-sm font-medium text-[#6B4A3A] shadow-sm hover:bg-[#6B4A3A]/5 active:opacity-90"
             >
-              Regenerate
+              {isRegenerating ? 'Regenerating…' : 'Regenerate'}
             </button>
           </div>
+
+          {regenError ? (
+            <p className="mt-4 text-center text-xs text-[#9A7A66]">{regenError}</p>
+          ) : null}
         </section>
 
         <section className="mx-auto mt-10 w-full max-w-4xl">
@@ -93,6 +163,17 @@ they are ideal for daily use, travel, and work.`
                 </div>
               ))}
             </div>
+
+            {suggestions.length ? (
+              <div className="mt-6 border-t border-[#C9AA8C] pt-4">
+                <div className="text-sm font-medium">Suggestions</div>
+                <div className="mt-2 grid gap-2 text-sm text-[#9A7A66]">
+                  {suggestions.map((s) => (
+                    <div key={s}>{s}</div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
 
           <button

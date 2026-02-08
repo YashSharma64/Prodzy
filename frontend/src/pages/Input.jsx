@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { evaluateDescription, generateDescription } from '../services/api.js'
+
 export default function Input() {
   const title = 'Prodzy.AI'
   const durationMs = 5200
@@ -10,6 +12,8 @@ export default function Input() {
   const navigate = useNavigate()
 
   const [showForm, setShowForm] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({
     productName: '',
     category: '',
@@ -34,25 +38,51 @@ export default function Input() {
     })
   }, [showForm])
 
-  const onGenerate = () => {
-    const name = form.productName?.trim() || 'Your product'
-    const category = form.category?.trim() || 'your category'
-    const features = form.keyFeatures?.trim()
+  const onGenerate = async () => {
+    setError('')
+    setIsGenerating(true)
 
-    const description = `${name} is a premium product in ${category} designed for people who value quality and comfort. ${
-      features ? `Key highlights include: ${features}.` : ''
-    }`
+    const keyFeatures = (form.keyFeatures || '')
+      .split(/\n|,/g)
+      .map((s) => s.trim())
+      .filter(Boolean)
 
-    navigate('/result', {
-      state: {
-        description,
-        checks: [
-          { status: 'ok', label: 'Length', text: 'Within recommended range' },
-          { status: 'ok', label: 'Tone', text: `Matches ${category} category` },
-          { status: 'warn', label: 'Missing Info', text: 'Add a key spec (e.g., battery life)' },
-        ],
-      },
-    })
+    const payload = {
+      product_name: (form.productName || '').trim(),
+      category: (form.category || '').trim(),
+      key_features: keyFeatures,
+      audience: (form.targetAudience || '').trim() || null,
+      tone: 'premium',
+      language: 'en',
+      prompt_version: 'v2',
+    }
+
+    try {
+      const gen = await generateDescription(payload)
+
+      const evalRes = await evaluateDescription({
+        description: gen.description,
+        expected_tone: payload.tone,
+        required_terms: keyFeatures.slice(0, 5),
+        min_length: 120,
+        max_length: 180,
+      })
+
+      navigate('/result', {
+        state: {
+          description: gen.description,
+          checks: evalRes.checks,
+          suggestions: evalRes.suggestions,
+          score: evalRes.score,
+          metadata: gen.metadata,
+          generatePayload: payload,
+        },
+      })
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong')
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   return (
@@ -102,7 +132,7 @@ export default function Input() {
               onClick={() => setShowForm(true)}
             >
               <span className="leading-tight">
-                <span className="block text-xs">fill the</span>
+                <span className="block text-xs">Fill the</span>
                 <span className="block text-base md:text-lg">Product Details Form</span>
               </span>
             </button>
@@ -188,9 +218,16 @@ export default function Input() {
                 type="button"
                 className="mx-auto mt-6 inline-flex rounded-xl bg-[#B88A65] px-10 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm hover:opacity-95 active:opacity-90"
                 onClick={onGenerate}
+                disabled={isGenerating}
               >
-                Generate Description
+                {isGenerating ? 'Generating…' : 'Generate Description'}
               </button>
+
+              {error ? (
+                <p className="mx-auto mt-4 max-w-2xl text-center text-xs text-[#F5E8D7]/90">
+                  {error}
+                </p>
+              ) : null}
             </div>
           )}
 
