@@ -134,11 +134,11 @@ they are ideal for daily use, travel, and work.`
   }
 
   return (
-    <div className="min-h-screen bg-[#F5E8D7] text-[#7B5A48]">
+    <div className="min-h-screen bg-brown-100 text-brown-700">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8">
         <button
           type="button"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[#6B4A3A] hover:opacity-80"
+          className="inline-flex items-center gap-2 text-sm font-medium text-brown-800 hover:opacity-80"
           onClick={() => navigate('/')}
         >
           <span>←</span>
@@ -158,11 +158,11 @@ they are ideal for daily use, travel, and work.`
         </h1>
 
         {error ? (
-          <div className="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-[#C9AA8C] bg-[#F5E8D7] p-6 text-center md:p-10">
-            <p className="text-sm text-[#7B5A48]">{error}</p>
+          <div className="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-brown-200 bg-brown-100 p-6 text-center md:p-10">
+            <p className="text-sm text-brown-700">{error}</p>
             <button
               type="button"
-              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#6B4A3A] hover:opacity-80"
+              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-brown-800 hover:opacity-80"
               onClick={() => navigate('/')}
             >
               <span>←</span>
@@ -171,7 +171,7 @@ they are ideal for daily use, travel, and work.`
           </div>
         ) : null}
 
-        <section className="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-[#C9AA8C] bg-[#F5E8D7] p-6 md:p-10">
+        <section className="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-brown-200 bg-brown-100 p-6 md:p-10">
           <div className="whitespace-pre-line text-base leading-relaxed md:text-lg">
             {description}
           </div>
@@ -181,7 +181,7 @@ they are ideal for daily use, travel, and work.`
               type="button"
               onClick={onCopy}
               disabled={copyState === 'copying'}
-              className="inline-flex rounded-xl bg-[#6B4A3A] px-8 py-3 text-sm font-medium text-[#F5E8D7] shadow-sm hover:opacity-95 active:opacity-90"
+              className="inline-flex rounded-xl bg-brown-800 px-8 py-3 text-sm font-medium text-brown-100 shadow-sm hover:opacity-95 active:opacity-90"
             >
               {copyState === 'copied'
                 ? 'Copied!'
@@ -193,21 +193,21 @@ they are ideal for daily use, travel, and work.`
               type="button"
               onClick={onRegenerate}
               disabled={isRegenerating || !generatePayload}
-              className="inline-flex rounded-xl border border-[#6B4A3A] bg-transparent px-8 py-3 text-sm font-medium text-[#6B4A3A] shadow-sm hover:bg-[#6B4A3A]/5 active:opacity-90"
+              className="inline-flex rounded-xl border border-brown-800 bg-transparent px-8 py-3 text-sm font-medium text-brown-800 shadow-sm hover:bg-brown-800/5 active:opacity-90"
             >
               {isRegenerating ? 'Regenerating…' : 'Regenerate'}
             </button>
           </div>
 
           {regenError ? (
-            <p className="mt-4 text-center text-xs text-[#9A7A66]">{regenError}</p>
+            <p className="mt-4 text-center text-xs text-brown-600">{regenError}</p>
           ) : null}
         </section>
 
         <section className="mx-auto mt-10 w-full max-w-4xl">
           <h2 className="text-xl font-medium tracking-wide">Quality Check</h2>
 
-          <div className="mt-4 rounded-2xl border border-[#C9AA8C] bg-[#F5E8D7] p-6 md:p-8">
+          <div className="mt-4 rounded-2xl border border-brown-200 bg-brown-100 p-6 md:p-8">
             <div className="grid gap-3 text-sm md:text-base">
               {checks.map((c) => (
                 <div key={c.label} className="flex items-start gap-3">
@@ -220,9 +220,9 @@ they are ideal for daily use, travel, and work.`
             </div>
 
             {suggestions.length ? (
-              <div className="mt-6 border-t border-[#C9AA8C] pt-4">
+              <div className="mt-6 border-t border-brown-200 pt-4">
                 <div className="text-sm font-medium">Suggestions</div>
-                <div className="mt-2 grid gap-2 text-sm text-[#9A7A66]">
+                <div className="mt-2 grid gap-2 text-sm text-brown-600">
                   {suggestions.map((s) => (
                     <div key={s}>{s}</div>
                   ))}
@@ -233,7 +233,7 @@ they are ideal for daily use, travel, and work.`
 
           <button
             type="button"
-            className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#6B4A3A] hover:opacity-80"
+            className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-brown-800 hover:opacity-80"
             onClick={() => navigate('/')}
           >
             <span>←</span>

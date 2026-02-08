@@ -27,6 +27,7 @@ export default function Input() {
   }
 
   const formRef = useRef(null)
+  const aboutRef = useRef(null)
 
   useEffect(() => {
     if (!showForm) return
@@ -37,6 +38,11 @@ export default function Input() {
       block: 'start',
     })
   }, [showForm])
+
+  const onAboutClick = () => {
+    if (!aboutRef.current) return
+    aboutRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   const onGenerate = async () => {
     setError('')
@@ -86,12 +92,13 @@ export default function Input() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5E8D7] text-[#7B5A48]">
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-3 py-6 border-b border-brown-500 opacity-70">
-       <div className="w-14"><img src="public/prodzy.png" alt="" /></div>
+    <div className="min-h-screen bg-brown-100 text-brown-700">
+      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-3 py-6 opacity-80">
+       <div className="w-14"><img src="/prodzy.png" alt="" /></div>
         <button
           type="button"
-          className="text-2xl font-light tracking-widest hover:opacity-80"
+          className="text-2xl font-light tracking-widest hover:text-brown-900"
+          onClick={onAboutClick}
         >
           ABOUT US
         </button>
@@ -101,8 +108,8 @@ export default function Input() {
 
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-6 text-center">
-        <div className="w-full max-w-3xl py-10 md:py-16">
-          <h1 className="text-17xl font-light sm:text-6xl md:text-9xl" aria-label={title}>
+        <div className="w-full max-w-3xl py-10 md:py-10">
+          <h1 className="text-6xl font-light sm:text-7xl md:text-[10rem]" aria-label={title}>
             {title.split('').map((ch, idx) => (
               <span
                 // eslint-disable-next-line react/no-array-index-key
@@ -126,12 +133,12 @@ export default function Input() {
             Category-aware descriptions powered by LLMs
           </p>
 
-          <div className="mx-auto mt-5 h-px w-full max-w-xl bg-[#C9AA8C]" />
+          <div className="mx-auto mt-5 h-px w-full max-w-xl bg-brown-200" />
 
           {!showForm ? (
             <button
               type="button"
-              className="mt-12 inline-flex rounded-xl bg-[#6B4A3A] px-10 py-5 text-sm font-medium text-[#F5E8D7] shadow-sm transition-colors transition-transform duration-300 hover:opacity-95 hover:bg-brown-200 hover:text-brown-800 hover:scale-[1.03] active:opacity-90 active:scale-[0.99] md:px-14 md:py-6"
+              className="mt-12 inline-flex rounded-xl bg-brown-800 px-10 py-5 text-sm font-medium text-brown-100 shadow-sm transition-colors transition-transform duration-300 hover:opacity-95 hover:bg-brown-200 hover:text-brown-800 hover:scale-[1.03] active:opacity-90 active:scale-[0.99] md:px-14 md:py-6"
               onClick={() => setShowForm(true)}
             >
               <span className="leading-tight">
@@ -141,20 +148,20 @@ export default function Input() {
             </button>
           ) : (
             <div className="mt-10">
-              <div ref={formRef} className="mx-auto w-full max-w-3xl scroll-mt-24 rounded-2xl bg-[#6B4A3A] px-6 py-8 text-left text-[#F5E8D7] shadow-sm md:px-10 md:py-10">
+              <div ref={formRef} className="mx-auto w-full max-w-3xl scroll-mt-24 rounded-2xl bg-brown-800 px-6 py-8 text-left text-brown-100 shadow-sm md:px-10 md:py-10">
                 <div className="flex items-start justify-between gap-6">
                   <div>
                     <h2 className="text-base font-medium tracking-wide">
                       Product Details
                     </h2>
-                    <p className="mt-1 text-xs text-[#F5E8D7]/80">
+                    <p className="mt-1 text-xs text-brown-100/80">
                       Fill what you know. Keep it short.
                     </p>
                   </div>
 
                   <button
                     type="button"
-                    className="text-xs tracking-wide text-[#F5E8D7]/90 hover:text-[#F5E8D7]"
+                    className="text-xs tracking-wide text-brown-100/90 hover:text-brown-100"
                     onClick={() => setShowForm(false)}
                   >
                     Back
@@ -167,7 +174,7 @@ export default function Input() {
                     <input
                       value={form.productName}
                       onChange={onChange('productName')}
-                      className="w-full rounded-lg border border-[#F5E8D7]/20 bg-[#F5E8D7]/5 px-4 py-3 text-sm outline-none placeholder:text-[#F5E8D7]/50 focus:border-[#F5E8D7]/60"
+                      className="w-full rounded-lg border border-brown-100/20 bg-brown-100/5 px-4 py-3 text-sm text-brown-100 outline-none placeholder:text-brown-100/50 focus:border-brown-100/60"
                       placeholder="e.g., Aurora Stainless Steel Water Bottle"
                     />
                   </label>
@@ -178,7 +185,7 @@ export default function Input() {
                       <input
                         value={form.category}
                         onChange={onChange('category')}
-                        className="w-full rounded-lg border border-[#F5E8D7]/20 bg-[#F5E8D7]/5 px-4 py-3 text-sm outline-none placeholder:text-[#F5E8D7]/50 focus:border-[#F5E8D7]/60"
+                        className="w-full rounded-lg border border-brown-100/20 bg-brown-100/5 px-4 py-3 text-sm text-brown-100 outline-none placeholder:text-brown-100/50 focus:border-brown-100/60"
                         placeholder="e.g., Drinkware"
                       />
                     </label>
@@ -188,7 +195,7 @@ export default function Input() {
                       <input
                         value={form.brandOrPrice}
                         onChange={onChange('brandOrPrice')}
-                        className="w-full rounded-lg border border-[#F5E8D7]/20 bg-[#F5E8D7]/5 px-4 py-3 text-sm outline-none placeholder:text-[#F5E8D7]/50 focus:border-[#F5E8D7]/60"
+                        className="w-full rounded-lg border border-brown-100/20 bg-brown-100/5 px-4 py-3 text-sm text-brown-100 outline-none placeholder:text-brown-100/50 focus:border-brown-100/60"
                         placeholder="e.g., Aurora / $24.99"
                       />
                     </label>
@@ -200,7 +207,7 @@ export default function Input() {
                       value={form.keyFeatures}
                       onChange={onChange('keyFeatures')}
                       rows={3}
-                      className="w-full resize-none rounded-lg border border-[#F5E8D7]/20 bg-[#F5E8D7]/5 px-4 py-3 text-sm outline-none placeholder:text-[#F5E8D7]/50 focus:border-[#F5E8D7]/60"
+                      className="w-full resize-none rounded-lg border border-brown-100/20 bg-brown-100/5 px-4 py-3 text-sm text-brown-100 outline-none placeholder:text-brown-100/50 focus:border-brown-100/60"
                       placeholder="Insulated, leak-proof, 750ml, BPA-free"
                     />
                   </label>
@@ -210,7 +217,7 @@ export default function Input() {
                     <input
                       value={form.targetAudience}
                       onChange={onChange('targetAudience')}
-                      className="w-full rounded-lg border border-[#F5E8D7]/20 bg-[#F5E8D7]/5 px-4 py-3 text-sm outline-none placeholder:text-[#F5E8D7]/50 focus:border-[#F5E8D7]/60"
+                      className="w-full rounded-lg border border-brown-100/20 bg-brown-100/5 px-4 py-3 text-sm text-brown-100 outline-none placeholder:text-brown-100/50 focus:border-brown-100/60"
                       placeholder="e.g., Gym-goers"
                     />
                   </label>
@@ -219,7 +226,7 @@ export default function Input() {
 
               <button
                 type="button"
-                className="mx-auto mt-8 inline-flex rounded-xl bg-[#B88A65] px-12 py-4 text-sm font-medium text-[#F5E8D7] shadow-sm transition-colors transition-transform active:opacity-90 enabled:hover:bg-brown-800 enabled:hover:scale-[1.03] active:scale-[1.01]"
+                className="mx-auto mt-8 inline-flex rounded-xl bg-brown-500 px-12 py-4 text-sm font-medium text-brown-100 shadow-sm transition-colors transition-transform active:opacity-90 enabled:hover:bg-brown-800 enabled:hover:scale-[1.03] active:scale-[1.01]"
                 onClick={onGenerate}
                 disabled={isGenerating}
               >
@@ -227,18 +234,54 @@ export default function Input() {
               </button>
 
               {error ? (
-                <p className="mx-auto mt-4 max-w-2xl text-center text-xs text-[#F5E8D7]/90">
+                <p className="mx-auto mt-4 max-w-2xl text-center text-xs text-brown-100/90">
                   {error}
                 </p>
               ) : null}
             </div>
           )}
 
-          <p className="mt-16 text-xs text-[#9A7A66] md:text-sm">
+          <p className="mt-16 text-xs text-brown-600 md:text-sm">
             Fill what you know — Prodzy handles the rest...
           </p>
+
+          <section
+            ref={aboutRef}
+            id="about-us"
+            className="mx-auto mt-16 w-full max-w-5xl rounded-2xl border border-brown-200/70 bg-brown-100 p-6 text-left md:p-10"
+          >
+            <h2 className="text-center text-2xl font-light tracking-widest text-brown-700 md:text-3xl">
+              ABOUT&nbsp;US
+            </h2>
+
+            <div className="mt-10 grid items-center gap-10 md:grid-cols-[1fr_auto_1fr]">
+              <div className="mx-auto h-44 w-44 rounded-[38px] bg-brown-200/35" />
+
+              <div className="hidden h-40 w-px bg-brown-200 md:block" />
+
+              <div className="text-sm leading-relaxed text-brown-700/85 md:text-base">
+                <p>
+                  Prodzy is a backend-first AI tool built to generate reliable, category-aware product
+                  descriptions for e-commerce use cases.
+                </p>
+                <p className="mt-4">
+                  The system focuses on prompt control, output consistency, and lightweight quality
+                  evaluation rather than heavy UI complexity.
+                </p>
+                <p className="mt-4">
+                  It works well even with partial product information and provides transparent feedback
+                  so you can quickly refine or regenerate.
+                </p>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
+
+      <footer className="mx-auto w-full max-w-6xl px-6 py-10 text-center text-xs text-brown-600 md:text-sm">
+        <div className="mx-auto h-px w-full max-w-xl bg-brown-200/70" />
+        <p className="mt-6">© {new Date().getFullYear()} Prodzy.AI — Built for fast, clean product copy.</p>
+      </footer>
     </div>
   )
 }
