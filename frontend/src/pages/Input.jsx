@@ -244,38 +244,38 @@ export default function Input() {
           <p className="mt-16 text-xs text-brown-600 md:text-sm">
             Fill what you know — Prodzy handles the rest...
           </p>
-
-          <section
-            ref={aboutRef}
-            id="about-us"
-            className="mx-auto mt-16 w-full max-w-5xl rounded-2xl border border-brown-200/70 bg-brown-100 p-6 text-left md:p-10"
-          >
-            <h2 className="text-center text-2xl font-light tracking-widest text-brown-700 md:text-3xl">
-              ABOUT&nbsp;US
-            </h2>
-
-            <div className="mt-10 grid items-center gap-10 md:grid-cols-[1fr_auto_1fr]">
-              <div className="mx-auto h-44 w-44 rounded-[38px] bg-brown-200/35" />
-
-              <div className="hidden h-40 w-px bg-brown-200 md:block" />
-
-              <div className="text-sm leading-relaxed text-brown-700/85 md:text-base">
-                <p>
-                  Prodzy is a backend-first AI tool built to generate reliable, category-aware product
-                  descriptions for e-commerce use cases.
-                </p>
-                <p className="mt-4">
-                  The system focuses on prompt control, output consistency, and lightweight quality
-                  evaluation rather than heavy UI complexity.
-                </p>
-                <p className="mt-4">
-                  It works well even with partial product information and provides transparent feedback
-                  so you can quickly refine or regenerate.
-                </p>
-              </div>
-            </div>
-          </section>
         </div>
+
+        <section
+          ref={aboutRef}
+          id="about-us"
+          className="mx-auto mt-16 w-full max-w-7xl rounded-2xl border border-brown-200/70 bg-brown-100 p-6 text-left md:p-12"
+        >
+          <h2 className="text-center text-2xl font-light tracking-widest text-brown-700 md:text-3xl">
+            ABOUT&nbsp;US
+          </h2>
+
+          <div className="mt-10 grid items-center gap-10 md:grid-cols-[1fr_auto_1fr]">
+            <img src="/prodzy.png" alt="" className="mx-auto h-48 w-48 object-contain" />
+
+            <div className="hidden h-44 w-px bg-brown-200 md:block" />
+
+            <div className="text-sm leading-relaxed text-brown-700/85 md:text-base">
+              <p>
+                Prodzy is a backend-first AI tool built to generate reliable, category-aware product
+                descriptions for e-commerce use cases.
+              </p>
+              <p className="mt-4">
+                The system focuses on prompt control, output consistency, and lightweight quality
+                evaluation rather than heavy UI complexity.
+              </p>
+              <p className="mt-4">
+                It works well even with partial product information and provides transparent feedback
+                so you can quickly refine or regenerate.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer className="mx-auto w-full max-w-6xl px-6 py-10 text-center text-xs text-brown-600 md:text-sm">

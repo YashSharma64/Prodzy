@@ -40,7 +40,7 @@ export default function App() {
 
         <main className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center px-6 pb-16 text-center">
 
-          <img src="/prodzy.png" alt="" className="h-40 w-40 object-contain" />
+          <img src="/prodzy.png" alt="" className="h-40 w-40 object-contain md:h-56 md:w-56" />
           <div className="mt-6 text-sm font-medium tracking-wide text-brown-700/80 md:text-base">
             Prodzy.AI - Product Description Generator
           </div>
