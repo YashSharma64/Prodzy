@@ -171,17 +171,17 @@ they are ideal for daily use, travel, and work.`
           </div>
         ) : null}
 
-        <section className="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-brown-200 bg-brown-100 p-6 md:p-10">
+        <section className="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-brown-200 bg-brown-800 p-6 md:p-10 text-brown-100">
           <div className="whitespace-pre-line text-base leading-relaxed md:text-lg">
             {description}
           </div>
 
-          <div className="mt-8 flex items-center justify-center gap-4">
+          <div className="mt-8 flex items-center justify-center gap-4 text-brown-100">
             <button
               type="button"
               onClick={onCopy}
               disabled={copyState === 'copying'}
-              className="inline-flex rounded-xl bg-brown-800 px-8 py-3 text-sm font-medium text-brown-100 shadow-sm hover:opacity-95 active:opacity-90"
+              className="inline-flex rounded-xl bg-brown-100 px-8 py-3 text-sm font-medium text-brown-800 shadow-sm hover:opacity-95 active:opacity-90"
             >
               {copyState === 'copied'
                 ? 'Copied!'
@@ -193,7 +193,7 @@ they are ideal for daily use, travel, and work.`
               type="button"
               onClick={onRegenerate}
               disabled={isRegenerating || !generatePayload}
-              className="inline-flex rounded-xl border border-brown-800 bg-transparent px-8 py-3 text-sm font-medium text-brown-800 shadow-sm hover:bg-brown-800/5 active:opacity-90"
+              className="inline-flex rounded-xl border border-brown-100 bg-transparent px-8 py-3 text-sm font-medium text-brown-100 shadow-sm hover:bg-brown-800/5 active:opacity-90"
             >
               {isRegenerating ? 'Regenerating…' : 'Regenerate'}
             </button>
