@@ -10,6 +10,7 @@ class GenerateRequest(BaseModel):
   key_features: List[str] = Field(default_factory=list)
   audience: Optional[str] = None
   tone: Optional[str] = None
+  prompt_version: str = Field(default='v2')
   language: str = Field(default='en', min_length=2, max_length=8)
 
 
