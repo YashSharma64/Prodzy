@@ -35,7 +35,7 @@ async def _generate_description(payload: GenerateRequest) -> GenerateResponse:
   )
 
 
-@router.post('/generate', response_model=GenerateResponse)
+@router.post('/generate', response_model=GenerateResponse, include_in_schema=False)
 async def generate(payload: GenerateRequest):
   return await _generate_description(payload)
 
